@@ -1,0 +1,88 @@
+:root {
+  --primary-bg: rgb(32, 32, 67);
+  --accent: rgb(146, 237, 156);
+  --font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  background: var(--primary-bg);
+  color: white;
+}
+
+nav {
+  background: var(--accent);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: var(--primary-bg);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+h1 {
+  color: var(--accent);
+}
+
+form {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+input, select, button {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+}
+
+input, select {
+  flex: 1;
+}
+
+button {
+  background: var(--accent);
+  color: var(--primary-bg);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: white;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
+  color: var(--primary-bg);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background: var(--accent);
+  color: var(--primary-bg);
+  text-align: left;
+}
+td button {
+  background: crimson;
+  color: white;
+}
+
+td button:hover {
+  background: darkred;
+}

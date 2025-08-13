@@ -1,0 +1,27 @@
+
+services:
+  backend:
+    build: ./backend
+    container_name: trimtool_backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: trimtool_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app   # ✅ Live reload mount, no node_modules override
+      - /app/node_modules
+    environment:
+      VITE_API_URL: ${VITE_API_URL}
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - backend
