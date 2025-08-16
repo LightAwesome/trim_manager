@@ -1,20 +1,28 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import AliasManager from "./pages/AliasManager";
-import TrimManager from "./pages/TrimManager";
+// FILE: src/App.jsx
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import Unprocessed from './pages/Unprocessed';
+import Processed from './pages/Processed';
+import Trims from './pages/Trims';
+import Aliases from './pages/Aliases';
+import Toast from './components/ui/Toast';
 
 function App() {
   return (
-    <Router>
-      <nav style={{ padding: "1rem", background: "#ddd" }}>
-        <Link to="/aliases" style={{ marginRight: "1rem" }}>Aliases</Link>
-        <Link to="/trims">Trims</Link>
-      </nav>
-
+    <>
       <Routes>
-        <Route path="/aliases" element={<AliasManager />} />
-        <Route path="/trims" element={<TrimManager />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="unprocessed" element={<Unprocessed />} />
+          <Route path="processed" element={<Processed />} />
+          <Route path="trims" element={<Trims />} />
+          <Route path="aliases" element={<Aliases />} />
+        </Route>
       </Routes>
-    </Router>
+      <Toast />
+    </>
   );
 }
 
