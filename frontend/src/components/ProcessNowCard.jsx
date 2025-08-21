@@ -10,15 +10,31 @@ function ProcessNowCard() {
   const { showToast } = useToast();
 
   const handleProcess = async () => {
+    if (!limit || limit <= 0) {
+      showToast('Please enter a valid limit greater than 0.', 'error');
+      return;
+    }
+
     setLoading(true);
     try {
       const result = await processListings(limit);
-      const summary = `Processed: ${result.processed}, Exact: ${result.exact_matches}, Fuzzy: ${result.fuzzy_matches}, Unmatched: ${result.unmatched}`;
+      const summary = `Processed: ${result.processed}, Exact: ${result.exact_matches}, Fuzzy: ${result.fuzzy_matches}, Unmatched: ${result.unmatched}, LLM : ${result.llm_matches}`;
       showToast(summary, 'success');
     } catch (error) {
       showToast(error.message || 'Processing failed.', 'error');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLimitChange = (e) => {
+    const val = e.target.value;
+    if (val === '') {
+      // Reset to default if cleared
+      setLimit(500);
+    } else {
+      const parsed = parseInt(val, 10);
+      setLimit(isNaN(parsed) ? 500 : parsed);
     }
   };
 
@@ -35,12 +51,18 @@ function ProcessNowCard() {
             id="limit"
             type="number"
             className="input"
+            min={1}
             value={limit}
-            onChange={(e) => setLimit(parseInt(e.target.value, 10))}
+            onChange={handleLimitChange}
             style={{ width: '120px' }}
           />
         </div>
-        <button onClick={handleProcess} className="btn btn-primary" disabled={loading} style={{ alignSelf: 'flex-end' }}>
+        <button
+          onClick={handleProcess}
+          className="btn btn-primary"
+          disabled={loading}
+          style={{ alignSelf: 'flex-end' }}
+        >
           {loading ? <><Spinner size="sm" /> Processing...</> : 'Process Now'}
         </button>
       </div>

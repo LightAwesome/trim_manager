@@ -1,5 +1,4 @@
-// FILE: src/pages/Dashboard.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import useApi from '../hooks/useApi';
 import { getStats } from '../lib/api';
 import Spinner from '../components/ui/Spinner';
@@ -7,6 +6,10 @@ import ProcessNowCard from '../components/ProcessNowCard';
 
 function Dashboard() {
   const { data: stats, loading, error, request: fetchStats } = useApi(getStats);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   const StatCard = ({ title, value, color }) => (
     <div className="card" style={{ borderColor: color, borderLeftWidth: '5px' }}>
@@ -25,10 +28,24 @@ function Dashboard() {
       </div>
 
       {loading && <Spinner />}
-      {error && <div className="error-state">Error fetching stats: {error.message}. <button className="btn btn-secondary btn-sm" onClick={fetchStats}>Retry</button></div>}
+      {error && (
+        <div className="error-state">
+          Error fetching stats: {error.message}.{' '}
+          <button className="btn btn-secondary btn-sm" onClick={fetchStats}>
+            Retry
+          </button>
+        </div>
+      )}
 
       {stats && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1.5rem',
+            marginBottom: '2rem',
+          }}
+        >
           <StatCard title="Total Listings" value={stats.total} color="var(--info-color)" />
           <StatCard title="Processed" value={stats.processed} color="var(--accent)" />
           <StatCard title="Needs Review" value={stats.needs_review} color="var(--warning-color)" />

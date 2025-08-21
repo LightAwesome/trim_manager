@@ -15,7 +15,6 @@ import { useToast } from '../contexts/ToastContext';
 function Unprocessed() {
   const [limit] = useState(50);
 
-  // Pass the stable API function reference and set lazy=true
   const {
     data: listings,
     loading,
@@ -26,6 +25,7 @@ function Unprocessed() {
   const { showToast } = useToast();
 
   const [activeListing, setActiveListing] = useState(null);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [isCandidatesDrawerOpen, setCandidatesDrawerOpen] = useState(false);
   const [isAssignModalOpen, setAssignModalOpen] = useState(false);
   const [aliasPromptData, setAliasPromptData] = useState(null);
@@ -68,6 +68,7 @@ function Unprocessed() {
   const onAssignSuccess = useCallback(
     (assignedTrimMaster) => {
       setAssignModalOpen(false);
+      setSelectedCandidate(null);
       showToast(`Trim assigned successfully.`, 'success');
       if (assignedTrimMaster && activeListing) {
         setAliasPromptData({
@@ -153,10 +154,7 @@ function Unprocessed() {
           onClose={() => setCandidatesDrawerOpen(false)}
           onAssign={(candidateTrim) => {
             setCandidatesDrawerOpen(false);
-            setActiveListing((prev) => ({
-              ...prev,
-              selectedCandidate: candidateTrim
-            }));
+            setSelectedCandidate(candidateTrim);
             setAssignModalOpen(true);
           }}
         />
@@ -165,10 +163,12 @@ function Unprocessed() {
       {isAssignModalOpen && activeListing && (
         <AssignTrimModal
           listing={activeListing}
+          selectedCandidate={selectedCandidate}
           isOpen={isAssignModalOpen}
           onClose={() => {
             setAssignModalOpen(false);
             setActiveListing(null);
+            setSelectedCandidate(null);
           }}
           onSuccess={onAssignSuccess}
         />
