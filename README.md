@@ -104,6 +104,9 @@ The frontend will be available at:
 👉 `http://localhost:3000`
 
 ---
+GO THROUGH THE SWAGGER DOCS FOR ENDPOINT INFO:
+
+<img width="964" height="547" alt="Screenshot 2025-08-21 at 10 22 41 AM" src="https://github.com/user-attachments/assets/39fbb327-d638-417b-a11b-1819cff43cdf" />
 
 ## 🔄 Bulk Reprocessing
 
